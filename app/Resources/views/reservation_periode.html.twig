@@ -4,7 +4,9 @@
     <div class="row">
         <div class="col col-md-12 col-lg-offset-3">
             <h3>Chambres disponibles du {{ start }} au {{ end }}</h3>
-            {{ dump(roomOff) }}
+            {{ dump(roomsOff) }}
+            {{ dump(roomsList) }}
+            {{ dump(roomsDispo) }}
             {{ dump(start) }}
             {{ dump(end) }}
 <table class="table table-bordered table-striped">
@@ -18,7 +20,7 @@
     </tr>
     {% for room in roomsDispo %}
 
-        <tr><td>{{ room.hotel.name }}</td><td>{{ room.hotel.adress }}</td><td>{{ room.type }}</td><td>{{ room.price }}</td><td>{{ room.note }}/10</td><td><a href="{{ path('register_reservation',{id:room.id,d1:start,d2:end}) }}"><button class="btn btn-primary">Réserver</button></a></td></tr>
+        <tr><td>{{ room.hostel.name }}</td><td>{{ room.hostel.adress }}</td><td>{{ room.type }}</td><td>{{ room.price }}</td><td>{{ room.note }}/10</td><td><a href="{{ path('register_reservation',{id:room.id,d1:start,d2:end}) }}"><button class="btn btn-primary">Réserver</button></a></td></tr>
 {% endfor %}
 </table>
     </div>

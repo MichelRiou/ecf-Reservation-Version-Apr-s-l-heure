@@ -13,10 +13,10 @@ class RoomRepository extends \Doctrine\ORM\EntityRepository
     public function getRoomsDispo($start_date,$end_date)
     {
         $qb=$this->createQueryBuilder('p');
-        $qb->select('p.id')
+        $qb->select('p')
             ->innerJoin('p.reservations','a')
-            ->where('a.startDate BETWEEN :d1 AND :d2' )
-            ->orWhere('a.enddate BETWEEN :d1 AND :d2' )
+            ->where('a.startDate <= :d2' )
+            ->andWhere('a.enddate >= :d1' )
             ->groupBy('p.id')
             ->setParameter('d1', $start_date)
             ->setParameter('d2', $end_date);

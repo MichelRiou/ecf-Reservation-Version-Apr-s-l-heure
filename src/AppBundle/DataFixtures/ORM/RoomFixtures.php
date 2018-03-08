@@ -30,13 +30,9 @@ class RoomFixtures extends AbstractFixture implements OrderedFixtureInterface
             ["type" => 'Double', 'price' => 15],
             ["type" => 'Simple', 'price' => 20],
             ["type" => 'Suite', 'price' => 125],
-            ["type" => 'Double', 'price' => 15],
-            ["type" => 'Simple', 'price' => 20],
-            ["type" => 'Suite', 'price' => 125],
-            ["type" => 'Double', 'price' => 15],
-            ["type" => 'Simple', 'price' => 20],
-            ["type" => 'Suite', 'price' => 125],
-            ["type" => 'Simple', 'price' => 20]
+            ["type" => 'Double Royale', 'price' => 25],
+            ["type" => 'Suite Royale', 'price' => 200],
+
         ];
         for($i=1;$i<=3;$i++) {
             $cpt = 1;
@@ -47,7 +43,7 @@ class RoomFixtures extends AbstractFixture implements OrderedFixtureInterface
                     ->setNote(5)
                     ->setNumero($cpt++)
                     ->setPrice($list["price"])
-                    ->setHotel($this->getReference($hostel_reference))
+                    ->setHostel($this->getReference($hostel_reference))
                     ->setType($list["type"]);
 
             $manager->persist($room);

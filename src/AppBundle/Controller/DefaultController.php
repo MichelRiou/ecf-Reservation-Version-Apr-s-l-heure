@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Reservation;
-use AppBundle\Entity\Room;
+
 use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -36,7 +36,7 @@ class DefaultController extends Controller
         $end_date=$tag["endDate"];
 
         $roomRepository = $this->getDoctrine()->getRepository("AppBundle:Room");
-        $roomsOff = $roomRepository->getRoomsDispo($start_date,$end_date)->getResult();
+        $roomsOff = $roomRepository->getRoomsDispo($start_date,$end_date)->getArrayResult();
         $rooms=$roomRepository->findAll();
         if(count($rooms)<1){
             $msg='Aucunes réservations';
@@ -46,27 +46,26 @@ class DefaultController extends Controller
         $newRooms=[];
 
 
-        foreach ($rooms as $key=>$value){
-           // if (! array_search($value->getId(),$roomsOff)) {
-           //     array_push($newRooms, $value);
-           // }
-                    $x=true;
-                    foreach($roomsOff as $r){
-                    if($value->getId()== $r["id"])
-                        $x=false;
-                        break;
-                    }
-                    if ($x){
-                        array_push($newRooms, $value);
-                    }
-        }
+        foreach ($rooms as $key=>$value) {
+            // if (! array_search($value->getId(),$roomsOff)) {
+            //     array_push($newRooms, $value);
+            // }
+            $x = true;
+            foreach ($roomsOff as $k => $v) {
+                if ($value->getId() == $v["id"]) {
+                    $z = $v["id"];
+                    $x = false;
+                }
+            }
+                if ($x) array_push($newRooms, $value);
 
+        }
         return $this->render("reservation_periode.html.twig", [
             "start"=>$start_date,
             "end"=>$end_date,
             "nb"=>$nbOfPersons,
             "message" => $msg,
-            "roomOff" => $roomsOff,
+            "roomsOff" => $roomsOff,
             "roomsList"=>$rooms,
             "roomsDispo"=>$newRooms
         ]);
@@ -75,12 +74,15 @@ class DefaultController extends Controller
     /**
      * @Route("/reservation/{id}/{d1}/{d2}", name="register_reservation", requirements={"id":"\d+"})
      * @param $id
+     * @param $d1
+     * @param $d2
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function registerReservation($id,$d1,$d2, Request $request){
         $roomRepository = $this->getDoctrine()->getRepository("AppBundle:Room");
 
-        $room = $roomRepository->find(50);
+        $room = $roomRepository->find($id);
         $reservation = new Reservation();
         $reservation->setStartDate( DateTime::createFromFormat('Y-m-d', $d1))
                         ->setEnddate(DateTime::createFromFormat('Y-m-d', $d2))

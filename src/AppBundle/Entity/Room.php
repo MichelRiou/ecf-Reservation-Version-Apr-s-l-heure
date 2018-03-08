@@ -60,8 +60,9 @@ class Room
     /**
      * @var Hostel
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Hostel",inversedBy="rooms")
+     * @ORM\JoinColumn(name="hostel_id", referencedColumnName="id", nullable=false)
      */
-    private $hotel;
+    private $hostel;
 
     /**
      * @var ArrayCollection
@@ -202,20 +203,22 @@ class Room
     /**
      * @return Hostel
      */
-    public function getHotel()
+    public function getHostel()
     {
-        return $this->hotel;
+        return $this->hostel;
     }
 
     /**
-     * @param Hostel $hotel
+     * @param Hostel $hostel
      * @return Room
      */
-    public function setHotel($hotel)
+    public function setHostel($hostel)
     {
-        $this->hotel = $hotel;
+        $this->hostel = $hostel;
         return $this;
     }
+
+   
 
     /**
      * @return ArrayCollection

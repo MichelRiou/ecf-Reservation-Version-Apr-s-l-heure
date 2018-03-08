@@ -53,6 +53,7 @@ class Reservation
     /**
      * @var Room
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Room", inversedBy="reservations")
+     * @ORM\JoinColumn(name="room_id", referencedColumnName="id", nullable=false)
      */
     private $room;
 
