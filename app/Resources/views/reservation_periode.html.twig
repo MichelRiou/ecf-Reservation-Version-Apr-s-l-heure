@@ -16,7 +16,7 @@
         <th>Note</th>
         <th></th>
     </tr>
-    {% for room in roomsList %}
+    {% for room in roomsDispo %}
 
         <tr><td>{{ room.hotel.name }}</td><td>{{ room.hotel.adress }}</td><td>{{ room.type }}</td><td>{{ room.price }}</td><td>{{ room.note }}/10</td><td><a href="{{ path('register_reservation',{id:room.id,d1:start,d2:end}) }}"><button class="btn btn-primary">Réserver</button></a></td></tr>
 {% endfor %}

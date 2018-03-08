@@ -50,8 +50,14 @@ class DefaultController extends Controller
            // if (! array_search($value->getId(),$roomsOff)) {
            //     array_push($newRooms, $value);
            // }
+                    $x=true;
                     foreach($roomsOff as $r){
-
+                    if($value->getId()== $r["id"])
+                        $x=false;
+                        break;
+                    }
+                    if ($x){
+                        array_push($newRooms, $value);
                     }
         }
 
