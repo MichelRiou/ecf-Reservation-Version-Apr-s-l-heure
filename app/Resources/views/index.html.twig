@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="col col-md-4 col-md-offset-5">
+        <h2>Saisir votre recherche</h2>
+            <form method="post" action="{{ path('search_room_dispo') }}">
+
+                <div class="form-group">
+                    <label>Date de début</label>
+                    <input class="form-control required" type="date" name="startDate" id="startDate">
+                    <label>Date de fin</label>
+                    <input class="form-control" type="date" name="endDate" id="endDate">
+                    <label>Nombre de personnes</label>
+                    <input class="form-control" type="number" name="nbPersons" id="nbPersons" >
+                    <button type="submit" class="btn btn-primary ">Valider</button>
+
+                </div>
+
+            </form>
+
+    </div>
+
+{% endblock %}
