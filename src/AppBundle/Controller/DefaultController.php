@@ -30,44 +30,43 @@ class DefaultController extends Controller
     public function searchRoomsDispoAction(Request $request)
     {
         //$tag = $request->query->get('tag');
-        $tag=$request->request->all();
-        $start_date=$tag["startDate"];
-        $nbOfPersons=$tag["nbPersons"];
-        $end_date=$tag["endDate"];
+        $tag = $request->request->all();
+        $start_date = $tag["startDate"];
+        $nbOfPersons = $tag["nbPersons"];
+        $end_date = $tag["endDate"];
 
         $roomRepository = $this->getDoctrine()->getRepository("AppBundle:Room");
-        $roomsOff = $roomRepository->getRoomsDispo($start_date,$end_date)->getArrayResult();
-        $rooms=$roomRepository->findAll();
-        if(count($rooms)<1){
-            $msg='Aucunes réservations';
-        }else{
-            $msg='Sélections des réservations';
+        $roomsOff = $roomRepository->getRoomsDispo($start_date, $end_date)->getArrayResult();
+        $rooms = $roomRepository->findAll();
+        if (count($rooms) < 1) {
+            $msg = 'Aucunes réservations';
+        } else {
+            $msg = 'Sélections des réservations';
         }
-        $newRooms=[];
+        $newRooms = [];
 
 
-        foreach ($rooms as $key=>$value) {
+        foreach ($rooms as $key => $value) {
             // if (! array_search($value->getId(),$roomsOff)) {
             //     array_push($newRooms, $value);
             // }
             $x = true;
             foreach ($roomsOff as $k => $v) {
                 if ($value->getId() == $v["id"]) {
-                    $z = $v["id"];
                     $x = false;
                 }
             }
-                if ($x) array_push($newRooms, $value);
+            if ($x) array_push($newRooms, $value);
 
         }
         return $this->render("reservation_periode.html.twig", [
-            "start"=>$start_date,
-            "end"=>$end_date,
-            "nb"=>$nbOfPersons,
+            "start" => $start_date,
+            "end" => $end_date,
+            "nb" => $nbOfPersons,
             "message" => $msg,
             "roomsOff" => $roomsOff,
-            "roomsList"=>$rooms,
-            "roomsDispo"=>$newRooms
+            "roomsList" => $rooms,
+            "roomsDispo" => $newRooms
         ]);
     }
 
@@ -79,20 +78,20 @@ class DefaultController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function registerReservation($id,$d1,$d2, Request $request){
+    public function registerReservation($id, $d1, $d2, Request $request)
+    {
         $roomRepository = $this->getDoctrine()->getRepository("AppBundle:Room");
 
         $room = $roomRepository->find($id);
         $reservation = new Reservation();
-        $reservation->setStartDate( DateTime::createFromFormat('Y-m-d', $d1))
-                        ->setEnddate(DateTime::createFromFormat('Y-m-d', $d2))
-                        ->setEmail("toto@email.fr")
+        $reservation->setStartDate(DateTime::createFromFormat('Y-m-d', $d1))
+            ->setEnddate(DateTime::createFromFormat('Y-m-d', $d2))
+            ->setEmail("toto@email.fr")
+            ->setRoom($room);
 
-                        ->setRoom($room);
-
-                       $em = $this->getDoctrine()->getManager();
-                 $em->persist($reservation);
-                    $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($reservation);
+        $em->flush();
         return $this->redirectToRoute("homepage");
         /*
 
@@ -140,5 +139,6 @@ class DefaultController extends Controller
             "newPostForm" => $formView
         ]);
 
-    */}
+    */
+    }
 }
